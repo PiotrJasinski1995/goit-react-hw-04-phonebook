@@ -1,26 +1,17 @@
-import { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as Styled from './styled';
+import { SectionStyled } from './styled';
 
-class Section extends Component {
-  static defaultProps = {
-    title: '',
-  };
+const Section = ({ title = '', children }) => {
+  return (
+    <SectionStyled>
+      <h2>{title}</h2>
+      {children}
+    </SectionStyled>
+  );
+};
 
-  static propTypes = {
-    title: PropTypes.string,
-  };
-
-  render() {
-    const { title, children } = this.props;
-
-    return (
-      <Styled.SectionStyled>
-        <h2>{title}</h2>
-        {children}
-      </Styled.SectionStyled>
-    );
-  }
-}
+Section.propTypes = {
+  title: PropTypes.string,
+};
 
 export default Section;

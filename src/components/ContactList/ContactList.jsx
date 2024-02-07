@@ -1,23 +1,9 @@
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Contact from 'components/Contact/Contact';
 import Notification from 'components/Notification/Notification';
 
-class ContactList extends Component {
-  static defaultProps = {
-    contacts: [],
-    filter: '',
-  };
-
-  static propTypes = {
-    contacts: PropTypes.array,
-    filter: PropTypes.string,
-    onHandleDeleteContact: PropTypes.func,
-  };
-
-  getFilteredContacts = () => {
-    const { contacts, filter } = this.props;
-
+const ContactList = ({ contacts = [], filter = '', onHandleDeleteContact }) => {
+  const getFilteredContacts = () => {
     if (!filter) return contacts;
 
     return contacts.filter(contact => {
@@ -26,39 +12,41 @@ class ContactList extends Component {
     });
   };
 
-  handleDeleteContact = name => {
-    const { onHandleDeleteContact } = this.props;
-
+  const handleDeleteContact = name => {
     onHandleDeleteContact(name);
   };
 
-  render() {
-    const filteredContacts = this.getFilteredContacts();
+  const filteredContacts = getFilteredContacts();
 
-    return (
-      <>
-        {filteredContacts.length === 0 ? (
-          <Notification message="No contacts matching given criteria"></Notification>
-        ) : (
-          <ul>
-            {filteredContacts.map(contact => {
-              const { id, name, number } = contact;
+  return (
+    <>
+      {filteredContacts.length === 0 ? (
+        <Notification message="No contacts matching given criteria"></Notification>
+      ) : (
+        <ul>
+          {filteredContacts.map(contact => {
+            const { id, name, number } = contact;
 
-              return (
-                <li key={id}>
-                  <Contact
-                    name={name}
-                    number={number}
-                    onHandleDeleteContact={this.handleDeleteContact}
-                  />
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </>
-    );
-  }
-}
+            return (
+              <li key={id}>
+                <Contact
+                  name={name}
+                  number={number}
+                  onHandleDeleteContact={handleDeleteContact}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </>
+  );
+};
+
+ContactList.propTypes = {
+  contacts: PropTypes.array,
+  filter: PropTypes.string,
+  onHandleDeleteContact: PropTypes.func,
+};
 
 export default ContactList;

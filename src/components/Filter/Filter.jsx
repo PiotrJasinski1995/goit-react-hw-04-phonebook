@@ -1,43 +1,36 @@
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
-import * as Styled from './styled';
+import { FilterStyled } from './styled';
 
-class Filter extends Component {
-  static propTypes = {
-    filter: PropTypes.string,
-    onHandleFilter: PropTypes.func,
-  };
+const Filter = ({ filter = '', onHandleFilter }) => {
+  const filterInputId = nanoid();
 
-  filterInputId = nanoid();
-
-  handleFilter = event => {
-    const { onHandleFilter } = this.props;
-
+  const handleFilter = event => {
     const filter = event.target.value;
     onHandleFilter(filter);
   };
 
-  render() {
-    const { filter } = this.props;
+  return (
+    <FilterStyled>
+      <label htmlFor={filterInputId}>Find contacts by name</label>
+      <input
+        type="text"
+        name="filter"
+        id={filterInputId}
+        pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+        title="Filter field may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+        onChange={handleFilter}
+        autoComplete="off"
+        value={filter}
+        required
+      />
+    </FilterStyled>
+  );
+};
 
-    return (
-      <Styled.FilterStyled>
-        <label htmlFor={this.filterInputId}>Find contacts by name</label>
-        <input
-          type="text"
-          name="filter"
-          id={this.filterInputId}
-          pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Filter field may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          onChange={this.handleFilter}
-          autoComplete="off"
-          value={filter}
-          required
-        />
-      </Styled.FilterStyled>
-    );
-  }
-}
+Filter.propTypes = {
+  filter: PropTypes.string,
+  onHandleFilter: PropTypes.func,
+};
 
 export default Filter;

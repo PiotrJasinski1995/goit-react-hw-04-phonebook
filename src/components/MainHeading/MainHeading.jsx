@@ -1,11 +1,7 @@
-import { Component } from 'react';
-import * as Styled from './styled';
+import { MainHeadingStyled } from './styled';
 
-class MainHeading extends Component {
-  render() {
-    const { children } = this.props;
-    return <Styled.MainHeadingStyled>{children}</Styled.MainHeadingStyled>;
-  }
-}
+const MainHeading = ({ children }) => {
+  return <MainHeadingStyled>{children}</MainHeadingStyled>;
+};
 
 export default MainHeading;
